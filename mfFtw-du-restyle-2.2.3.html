@@ -5516,3 +5516,76 @@
     });
 })();
 </script>
+
+<style id="ftw_final_fix_v2_2_3_b">
+/* =====================================================================
+   Final Fix: SVG art positioning + section transition visibility
+   ===================================================================== */
+
+/* Fix 1 — Restore position:absolute on art/media backdrop containers.
+   The v2.2.2 rule ".ftw_section > * { position: relative }" was
+   overriding position:absolute on every direct-child art wrapper,
+   collapsing them to zero size and hiding all decorative SVG art. */
+.ftw_hero_media,
+.ftw_cta_media,
+.ftw_offer_art,
+.ftw_fit_art,
+.ftw_included_art,
+.ftw_production_art,
+.ftw_ai_backdrop,
+.ftw_flow_backdrop,
+.ftw_timeline_backdrop {
+    position: absolute !important;
+}
+
+/* Fix 2 — Section transition ::after gradients anchored within bounds.
+   "bottom: -Npx" values in v2.2.3 extended gradients below each section,
+   but isolation:isolate on every .ftw_section creates separate stacking
+   contexts — the following section's background always paints on top,
+   making those gradients invisible. Anchoring at bottom: 0 keeps each
+   gradient fully within its own stacking context so it renders correctly. */
+#ftw_hero::after {
+    bottom: 0 !important;
+    height: 52px !important;
+}
+
+.ftw_section_signal::after {
+    bottom: 0 !important;
+    height: 30px !important;
+}
+
+.ftw_section_offer::after,
+.ftw_section_fit::after,
+.ftw_section_production::after,
+.ftw_section_signup::after {
+    bottom: 0 !important;
+    height: 60px !important;
+}
+
+.ftw_section_flow::after,
+.ftw_section_timeline::after,
+.ftw_section_ai::after {
+    bottom: 0 !important;
+    height: 60px !important;
+}
+
+.ftw_section_included::after {
+    bottom: 0 !important;
+    height: 40px !important;
+}
+
+@media (max-width: 760px) {
+    #ftw_hero::after,
+    .ftw_section_signal::after,
+    .ftw_section_offer::after,
+    .ftw_section_flow::after,
+    .ftw_section_fit::after,
+    .ftw_section_timeline::after,
+    .ftw_section_included::after,
+    .ftw_section_production::after,
+    .ftw_section_ai::after,
+    .ftw_section_signup::after {
+        height: 30px !important;
+    }
+}
+</style>
